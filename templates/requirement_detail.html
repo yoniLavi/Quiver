@@ -1,0 +1,337 @@
+'<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='w3.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='w3-theme-blue-grey.css')}}">
+<link rel='stylesheet' href="{{ url_for('static', filename='w3-theme-blue-grey.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.min.css')}}">
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+.onoff {
+  margin-left: -27px;
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+  position: relative;
+  cursor: pointer;
+  width: 55px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.onoff label {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background: #cd3c3c;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #FFF;
+  -webkit-transition: background 0.3s, text-indent 0.3s;
+  -moz-transition: background 0.3s, text-indent 0.3s;
+  -o-transition: background 0.3s, text-indent 0.3s;
+  transition: background 0.3s, text-indent 0.3s;
+  text-indent: 27px;
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4) inset;
+  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4) inset;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4) inset;
+}
+.onoff label:after {
+  content: 'NO';
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  font-size: 12px;
+  color: #591717;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.35);
+  z-index: 1;
+}
+.onoff label:before {
+  content: '';
+  width: 15px;
+  height: 24px;
+  border-radius: 3px;
+  background: #FFF;
+  position: absolute;
+  z-index: 2;
+  top: 3px;
+  left: 3px;
+  display: block;
+  -webkit-transition: left 0.3s;
+  -moz-transition: left 0.3s;
+  -o-transition: left 0.3s;
+  transition: left 0.3s;
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+}
+.onoff input:checked + label {
+  background: #378b2c;
+  text-indent: 8px;
+}
+.onoff input:checked + label:after {
+  content: 'YES';
+  color: #091707;
+}
+.onoff input:checked + label:before {
+  left: 37px;
+}
+</style>
+<script src="{{ url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+  // from template reqtid should come
+ getRequirementDetail({{ reqtid }});
+ function getRequirementDetail(id){
+        url_toget='http://localhost:8080/requirement/' + id
+         $.ajax({
+             type: "GET",
+             dataType: "json",
+             url: url_toget,
+             success: function(data){
+			    //alert(data);
+			    var title = document.getElementById("title");
+			    var desc = document.getElementById("desc");
+			    var motive = document.getElementById("motive");
+			    var verify = document.getElementById("verify");
+			    //alert(data.title);
+			    //title.html=data.title;
+			    $('#externalId').text(data.externalid);
+                 $('#title').text(data.title);
+                 $('#desc').text(data.desc);
+                 $('#motive').text(data.motivation);
+                 $('#verify').text(data.verification);
+
+             }
+         });
+     }
+
+ });
+  function changedValue(control)
+  {
+    var checkpoint1=control.value;
+    //alert(checkpoint1);
+    if (checkpoint1==0)
+    {
+      control.value=1;
+      }
+      else
+      {
+       control.value=0;
+      }
+      calculateStrength();
+  };
+
+ function calculateStrength()
+  {
+    var checkpoint1=$('#checkboxID').val();
+    var checkpoint2=$('#checkboxID1').val();
+    var checkpoint3=$('#checkboxID2').val();
+    var checkpoint4=$('#checkboxID3').val();
+    //alert(checkpoint1);
+    if (checkpoint1==1 && checkpoint2==1 && checkpoint3==1 && checkpoint4==1)
+    {
+     //alert ("Strong");
+     $('#progressMain').text('Strong');
+     $('#progressMain').toggleClass('w3-container w3-round w3-green');
+     $('#progressMain').attr('style','width:60%');
+
+     } else
+     {
+     //alert ("Weak");
+     $('#progressMain').text('Weak');
+     $('#progressMain').toggleClass('w3-container w3-round w3-red');
+     $('#progressMain').attr('style','width:40%');
+
+     }
+  };
+</script>
+<body class="w3-theme-l5">
+
+<!-- Navbar -->
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align w3-medium">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+   <a href="#" class="w3-bar-item w3-button w3-padding-medium w3-theme-d2"><i class="fa fa-book w3-margin-right"><font face="sans-serif">Requirement Detail</font></i></a>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"></a>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"></a>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"></a>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account"></a>
+ </div>
+</div>
+
+<!-- Navbar on small screens -->
+<div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
+</div>
+
+<!-- Page Container -->
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
+  <!-- The Grid -->
+  <div class="w3-row">
+    <!-- Left Column -->
+    <div class="w3-col m15">
+      <!-- Profile -->
+      <div class="w3-card-2 w3-round w3-white">
+        <div class="w3-container">
+          <p ><i class="fa fa-tag w3-medium  w3-margin-right w3-text-theme "><font face="sans-serif">Identifier: </font></i> <i id="externalId" class="w3-medium w3-margin-right w3-text-theme "></i> </p>
+
+          <p ><i  class="fa fa-book w3-medium  w3-margin-right w3-text-theme "><font face="sans-serif">Title:</font></i>
+         <i id="title" class="w3-medium w3-margin-right w3-text-theme "></i> </p>
+
+          <p><i class="fa fa-inbox  w3-medium  w3-margin-right w3-text-theme"><font face="sans-serif">Description</font></i> </p>
+          <p ><i id="desc" class="w3-medium w3-margin-right w3-text-theme "></i> </p>
+
+          <p><i  class="fa fa-signal  w3-medium  w3-margin-right w3-text-theme"><font face="sans-serif">Motivation</font></i> </p>
+          <p ><i id="motive" class="w3-medium w3-margin-right w3-text-theme "></i> </p>
+
+          <p><i class="fa fa-bookmark  w3-medium  w3-margin-right w3-text-theme"><font face="sans-serif">Verification</font></i></p>
+          <p ><i id="verify" class="w3-medium w3-margin-right w3-text-theme "></i> </p>
+
+
+
+        </div>
+      </div>
+      <br>
+
+      <!-- Interests -->
+      <div class="w3-card-2 w3-round w3-white w3-hide-small">
+
+        <div class="w3-container " >
+          <p >Strength Analysis
+            <div class="w3-grey w3-round"  style="width:25%">
+            <div id="progressMain" class="w3-container w3-round w3-red" style="width:40%">Weak</div>
+          </div>
+          </p>
+
+          <p>
+            <span class="w3-tag w3-medium w3-theme-d4">Unique Identifier</span>
+
+            <span class="w3-tag w3-medium w3-theme-d4">Motivation</span>
+            <span class="w3-tag w3-medium w3-theme-d3">Verifiable</span>
+            <span class="w3-tag w3-medium w3-theme-d4">Complete</span>
+            <span class="w3-tag w3-medium w3-theme-d2">Ref. to Standards</span>
+            <span class="w3-tag w3-medium w3-theme-d1">Ref. to Products</span>
+
+          </p>
+          <table>
+
+            <tbody>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="onoff"><input onchange="changedValue(this);" type="checkbox" value="0" id="checkboxID"><label for="checkboxID"></label></p>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="onoff"><input onchange="changedValue(this);" type="checkbox" value="0" id="checkboxID1"><label for="checkboxID1"></label></p>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="onoff"><input onchange="changedValue(this);" type="checkbox" value="0" id="checkboxID2"><label for="checkboxID2"></label></p>
+              </td>
+               <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="onoff"><input onchange="changedValue(this);" type="checkbox" value="0" id="checkboxID3"><label for="checkboxID3"></label></p>
+              </td>
+               <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="onoff"><input onchange="changedValue(this);" type="checkbox" value="0" id="checkboxID4"><label for="checkboxID4"></label></p>
+              </td>
+               <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="onoff"><input onchange="changedValue(this);" type="checkbox" value="0" id="checkboxID5"><label for="checkboxID5"></label></p>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      <!-- Interests --> 
+      <div class="w3-card-2 w3-round w3-white w3-hide-small">
+        <div class="w3-container">
+          <p>Keywords</p>
+          <p>
+            <span class="w3-tag w3-small w3-theme-d5">Requirement</span>
+            <span class="w3-tag w3-small w3-theme-d4">Meter</span>
+            <span class="w3-tag w3-small w3-theme-d3">Quality</span>
+            <span class="w3-tag w3-small w3-theme-d2">Analysis</span>
+
+          </p>
+        </div>
+      </div>
+      <br>
+      
+      <!-- Alert Box -->
+      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
+          <i class="fa fa-remove"></i>
+        </span>
+        <p><strong>Hey!</strong></p>
+        <p>This requirement is related to another requirement.</p>
+      </div>
+    
+    <!-- End Left Column -->
+    </div>
+    
+    
+  <!-- End Grid -->
+  </div>
+  
+<!-- End Page Container -->
+</div>
+<br>
+
+<!-- Footer -->
+<footer class="w3-container w3-theme-d3 w3-padding-16">
+  <h5>Footer</h5>
+</footer>
+
+<footer class="w3-container w3-theme-d5">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+ 
+<script>
+// Accordion
+function myFunction(id) {
+    var x = document.getElementById(id);
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+        x.previousElementSibling.className += " w3-theme-d1";
+    } else { 
+        x.className = x.className.replace("w3-show", "");
+        x.previousElementSibling.className = 
+        x.previousElementSibling.className.replace(" w3-theme-d1", "");
+    }
+}
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else { 
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html> 
