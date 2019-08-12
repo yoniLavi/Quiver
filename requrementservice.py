@@ -28,6 +28,7 @@ def hello_world():
 
     
 def api_echo():
+    """Checks for all HTTP Verbs"""
     if request.method == 'GET':
         return "ECHO: GET\n"
     elif request.method == 'POST':
@@ -56,10 +57,12 @@ def api_message():
 
 @app.route ('/login')
 def login():
+    """Renders Login page."""
     return render_template('auth\login.html')
     
 @app.route('/hello', methods = ['GET'])
 def api_hello():
+    """Returns hello world. Retained for Test"""
     data = {
     'hello' : 'world',
     'number' : 3
